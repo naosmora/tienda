@@ -1,16 +1,42 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+      xmlns:th="http://www.thymeleaf.org">
     <head th:replace="~{general/fragmentos :: head}"/>
     <body>
         <header th:replace="~{general/fragmentos :: header}"/>
         <main class="container mt-4">
-            <h2 class="text-center">[[#{index.nuestrosProductos}]]</h2>
-            <div class="row mt-4">
-                <div class="col-12 text-center">
-                    <p>Bienvenido a TechShop - Su tienda en línea</p>
+            <h2 class="text-center mb-4">[[#{index.nuestrosProductos}]]</h2>
+
+            <!-- Categorias -->
+            <div class="row mb-4">
+                <div th:each="c : ${categorias}" class="col-md-3 mb-2">
+                    <a th:href="@{/consultas/}+${c.idCategoria}"
+                       class="btn btn-outline-success w-100">
+                        [[${c.descripcion}]]
+                    </a>
                 </div>
+            </div>
+
+            <!-- Productos -->
+            <div class="row">
+                <div th:each="p : ${productos}" class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">[[${p.descripcion}]]</h5>
+                            <p class="card-text">
+                                <strong>Precio:</strong> ₡[[${p.precio}]]
+                            </p>
+                            <p class="card-text">
+                                <strong>Existencias:</strong> [[${p.existencias}]]
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${productos == null or productos.empty}"
+                 class="text-center p-4">
+                <p>[[#{lista.vacia}]]</p>
             </div>
         </main>
         <footer th:replace="~{general/fragmentos :: footer}"/>
