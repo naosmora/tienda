@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{general/fragmentos :: head}"/>
+    <body>
+        <header th:replace="~{general/fragmentos :: header}"/>
+        <main class="container mt-4">
+
+            <div th:if="${todoOk}" class="alert alert-success">[[${todoOk}]]</div>
+            <div th:if="${error}" class="alert alert-danger">[[${error}]]</div>
+
+            <div class="row py-3">
+                <div class="col">
+                    <button type="button" class="btn btn-primary"
+                            data-bs-toggle="modal" data-bs-target="#agregarModal">
+                        <i class="fa-solid fa-plus"></i> [[#{usuario.agregar}]]
+                    </button>
+                </div>
+            </div>
+
+            <div class="row p-3">
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="card-header"><h4>[[#{usuario.listado}]]</h4></div>
+                        <div class="card-body">
+                            <div th:if="${usuarios != null and !usuarios.empty}">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>[[#{usuario.username}]]</th>
+                                            <th>[[#{usuario.nombre}]]</th>
+                                            <th>[[#{usuario.apellidos}]]</th>
+                                            <th>[[#{usuario.correo}]]</th>
+                                            <th>[[#{usuario.activo}]]</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="u : ${usuarios}">
+                                            <td>[[${u.idUsuario}]]</td>
+                                            <td>[[${u.username}]]</td>
+                                            <td>[[${u.nombre}]]</td>
+                                            <td>[[${u.apellidos}]]</td>
+                                            <td>[[${u.correo}]]</td>
+                                            <td th:text="${u.activo} ? 'Activo':'Inactivo'"></td>
+                                            <td>
+                                                <a th:href="@{/usuario/modificar/}+${u.idUsuario}"
+                                                   class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </a>
+                                                <form th:action="@{/usuario/eliminar}"
+                                                      method="post" style="display:inline">
+                                                    <input type="hidden" name="idUsuario"
+                                                           th:value="${u.idUsuario}"/>
+                                                    <button type="submit"
+                                                            class="btn btn-danger btn-sm"
+                                                            onclick="return confirm('¿Eliminar?')">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div th:if="${usuarios == null or usuarios.empty}"
+                                 class="text-center p-2">
+                                <span>[[#{lista.vacia}]]</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center bg-dark text-white">
+                        <div class="card-body">
+                            <h3>[[#{usuario.total}]]</h3>
+                            <h4 class="fs-2">[[${totalUsuarios}]]</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Agregar -->
+            <div class="modal fade" id="agregarModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title">[[#{usuario.agregar}]]</h5>
+                            <button type="button" class="btn-close"
+                                    data-bs-dismiss="modal"></button>
+                        </div>
+                        <form th:action="@{/usuario/guardar}" method="post">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label>[[#{usuario.username}]]</label>
+                                    <input type="text" name="username"
+                                           class="form-control" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label>[[#{usuario.password}]]</label>
+                                    <input type="password" name="password"
+                                           class="form-control" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label>[[#{usuario.nombre}]]</label>
+                                    <input type="text" name="nombre"
+                                           class="form-control" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label>[[#{usuario.apellidos}]]</label>
+                                    <input type="text" name="apellidos"
+                                           class="form-control" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label>[[#{usuario.correo}]]</label>
+                                    <input type="email" name="correo"
+                                           class="form-control"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label>[[#{usuario.activo}]]</label>
+                                    <input type="checkbox" name="activo"
+                                           class="form-check-input"/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">[[#{accion.cerrar}]]</button>
+                                <button type="submit"
+                                        class="btn btn-primary">[[#{accion.guardar}]]</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{general/fragmentos :: footer}"/>
+    </body>
+</html>
