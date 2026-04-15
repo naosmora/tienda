@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:replace="~{general/fragmentos :: head}"/>
+    <body>
+        <header th:replace="~{general/fragmentos :: header}"/>
+
+        <main class="container mt-4">
+            <h1 class="text-center">[[#{plantilla.titulo}]]</h1>
+            <p class="text-center">Bienvenido al sistema de gestión TechShop</p>
+        </main>
+
+        <footer th:replace="~{general/fragmentos :: footer}"/>
+    </body>
+</html>
