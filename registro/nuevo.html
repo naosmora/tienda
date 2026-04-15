@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{general/fragmentos :: head}"/>
+    <body>
+        <header th:replace="~{general/fragmentos :: header}"/>
+        <main class="container mt-4">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+
+                    <div th:if="${todoOk}" class="alert alert-success">[[${todoOk}]]</div>
+                    <div th:if="${error}" class="alert alert-danger">[[${error}]]</div>
+
+                    <div class="card">
+                        <div class="card-header bg-success text-white text-center">
+                            <h4>Crear Cuenta</h4>
+                        </div>
+                        <div class="card-body">
+                            <form th:action="@{/registro/guardar}"
+                                  th:object="${usuario}" method="post">
+                                <div class="mb-3">
+                                    <label>[[#{usuario.username}]]</label>
+                                    <input type="text" name="username"
+                                           class="form-control" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label>[[#{usuario.password}]]</label>
+                                    <input type="password" name="password"
+                                           class="form-control" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label>[[#{usuario.nombre}]]</label>
+                                    <input type="text" name="nombre"
+                                           class="form-control" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label>[[#{usuario.apellidos}]]</label>
+                                    <input type="text" name="apellidos"
+                                           class="form-control" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label>[[#{usuario.correo}]]</label>
+                                    <input type="email" name="correo"
+                                           class="form-control" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label>[[#{usuario.telefono}]]</label>
+                                    <input type="text" name="telefono"
+                                           class="form-control"/>
+                                </div>
+                                <button type="submit" class="btn btn-success w-100">
+                                    [[#{accion.registrar}]]
+                                </button>
+                            </form>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a th:href="@{/login}">¿Ya tienes cuenta? Inicia sesión</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{general/fragmentos :: footer}"/>
+    </body>
+</html>
